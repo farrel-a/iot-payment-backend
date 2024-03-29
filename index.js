@@ -11,14 +11,17 @@ const mysql_host = process.env.MYSQL_HOST;
 const mysql_user = process.env.MYSQL_USER;
 const mysql_password = process.env.MYSQL_PASSWORD;
 const mysql_database = process.env.MYSQL_DATABASE;
+const mysql_timezone = process.env.MYSQL_TIMEZONE;
 const mqtt_host = process.env.MQTT_HOST;
+const timezone = process.env.TIMEZONE;
 const PORT = process.env.PORT || 5000;
 
 var pool = mysql.createPool({
     host: mysql_host,
     user: mysql_user,
     password: mysql_password,
-    database: mysql_database
+    database: mysql_database,
+    timezone: mysql_timezone
 });
 
 const mqtt_client = mqtt.connect(mqtt_host);
@@ -30,10 +33,16 @@ mqtt_client.on('connect', ()=> {
 mqtt_client.on('message', (topic, message) => {
     if (topic === '/iot-payment/payment/log') {
         const data = message.toString().split(',');
-        const balance_change = data[0];
-        const current_balance = data[1];
-        pool.query('INSERT INTO payment_log (balance_change, current_balance) VALUES (?, ?)', 
-                    [balance_change, current_balance],
+        const ts = Date.now();
+        const new_date = new Date(ts);
+        new_date.setTime(new_date.getTime() + (timezone*60*60*1000));
+        const balance_change = parseInt(data[0]);
+        const current_balance = parseInt(data[1]);
+        if (balance_change === 0) {
+            return;
+        }
+        pool.query('INSERT INTO payment_log (payment_time, balance_change, current_balance) VALUES (?, ?, ?)', 
+                    [new_date, balance_change, current_balance],
                     (error, results) => {
                         if (error) {
                             console.log("Error inserting data to database")
