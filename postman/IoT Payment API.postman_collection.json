@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "01d43a5d-b70f-4ad7-b7e0-9019f67c9db9",
+		"name": "IoT Payment API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29751539"
+	},
+	"item": [
+		{
+			"name": "Home API",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{IoT_Payment_URL}}/",
+					"host": [
+						"{{IoT_Payment_URL}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Payment Log",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{IoT_Payment_URL}}/payment/log",
+					"host": [
+						"{{IoT_Payment_URL}}"
+					],
+					"path": [
+						"payment",
+						"log"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
