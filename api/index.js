@@ -27,7 +27,7 @@ var pool = mysql.createPool({
 const mqtt_client = mqtt.connect(mqtt_host);
 mqtt_client.on('connect', ()=> {
     mqtt_client.subscribe('/iot-payment/payment/log');
-    console.log('MQTT broker connected');
+    // console.log('MQTT broker connected');
 });
 
 mqtt_client.on('message', (topic, message) => {
@@ -45,7 +45,7 @@ mqtt_client.on('message', (topic, message) => {
                     [new_date, balance_change, current_balance],
                     (error, results) => {
                         if (error) {
-                            console.log("Error inserting data to database")
+                            // console.log("Error inserting data to database")
                         }
                     }
         );
