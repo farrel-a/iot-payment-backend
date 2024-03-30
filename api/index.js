@@ -6,7 +6,7 @@ const app = express();
 var mysql = require('mysql');
 const mqtt = require('mqtt');
 
-require('dotenv').config({path: `${__dirname}/.env`})
+require('dotenv').config({path: `${__dirname}/../.env`})
 const mysql_host = process.env.MYSQL_HOST;
 const mysql_user = process.env.MYSQL_USER;
 const mysql_password = process.env.MYSQL_PASSWORD;
@@ -73,3 +73,5 @@ app.get('/payment/log', (req, res) => {
 })
 
 app.listen(PORT,"0.0.0.0", () => console.log(`IoT Payment API is running at 0.0.0.0:${PORT}`));
+
+module.exports = app;
